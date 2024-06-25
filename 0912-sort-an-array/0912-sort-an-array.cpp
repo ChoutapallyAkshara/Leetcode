@@ -1,46 +1,43 @@
 class Solution {
 public:
-    vector<int>merge(vector<int>& nums,int start, int mid,int end,int n1, int n2, vector<int>& left, vector<int>& right){
-        int n=nums.size();
-        
-        int i=0,j=0,k=start;
-        while(i<n1 && j<n2){
-            if(left[i]<=right[j]){
-                nums[k++]=left[i++];
-            }
-            else{
-                nums[k++]=right[j++];
-            }
-        }
-        while(i<n1){
-            nums[k++]=left[i++];
-        }
-        while(j<n2){
-            nums[k++]=right[j++];
-        }
-        return nums;
-    }
+   void merge(vector<int> &nums, int start,int mid, int end){
+       int i = start;
+       int j = mid + 1;
+       int k = 0;
+       vector<int> temp(end - start + 1);
+       while(i<=mid and j<=end){
+           if(nums[i]<=nums[j]){
+               temp[k++]=nums[i++];
+           }
+           else{
+               temp[k++]=nums[j++];
+           }
+       }
+       while(i<=mid){
+           temp[k++]=nums[i++];
+       }
+       while(j<=end){
+           temp[k++]=nums[j++];
+       }
+       k=0;
+       for(int i=start;i<=end;i++){
+           nums[i]=temp[k];
+           k++;
+       }
+   }
 
+    void mergeSort(vector<int> & nums, int start,int end){
+        if(start>=end)return;
+        int mid = (start + end)/2;
+        mergeSort(nums,start,mid);
+        mergeSort(nums,mid+1,end);
+        merge(nums,start,mid,end);
+    }
     vector<int> sortArray(vector<int>& nums) {
         int n = nums.size();
         int start = 0;
-        int end = n - 1;
-        int mid = start+(end-start)/2;
-        int n1 = mid - start + 1;
-        int n2 = end - mid;
-        vector<int> left;
-        vector<int> right;
-        for(int i=0;i<n1;i++){
-            left.push_back(nums[start+i]);
-        }
-        for(int i=0;i<n2;i++){
-            right.push_back(nums[mid+1+i]);
-        }
-        if(end>start){
-            sortArray(left);
-            sortArray(right);
-            merge(nums,start,mid,end,n1,n2,left,right);
-        }
+        int end = n-1;
+       mergeSort(nums,start,end);
         return nums;
         
     }
