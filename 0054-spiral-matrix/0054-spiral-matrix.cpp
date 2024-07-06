@@ -3,48 +3,42 @@ public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
         int n=matrix.size();
         int m=matrix[0].size();
-        int t=0,b=n-1,l=0,r=m-1;
-        int dir=0;
-        vector<int>ans;
-        while(t<=b and l<=r)
-        {
-            if(dir==0)
-            {
-                for(int j=l;j<=r;j++)
-                {ans.push_back(matrix[t][j]);
-                }
-                t++;
-                dir=1;
+        int top = 0;
+        int bottom = n-1;
+        int left = 0;
+        int right = m-1;
+        vector<int>res;
+        while(top<=bottom && left<=right){
+            for(int i=left;i<=right;i++){
+                res.push_back(matrix[top][i]);
+                
             }
-            else if(dir==1)
-            {
-                for(int i=t;i<=b;i++)
-                {
-                    ans.push_back(matrix[i][r]);
-                }
-                r--;
-                dir=2;
+            top++;
+             
+            for(int i=top;i<=bottom;i++){
+                res.push_back(matrix[i][right]);
+               
             }
-            else if(dir==2)
-            {
-                for(int j=r;j>=l;j--)
-                {
-                    ans.push_back(matrix[b][j]);
-                }
-                b--;
-                dir=3;
-            }
-            else if(dir==3)
-            {
-                for(int i=b;i>=t;i--)
-                {
-                    ans.push_back(matrix[i][l]);
-                }
-                l++;
-                dir=0;
-            }
-        }
-        return ans;
+             right--;
+            
+            
         
+            if(top<=bottom){
+                for(int i=right;i>=left;i--){
+                    res.push_back(matrix[bottom][i]);
+                   
+                }
+                 bottom--;
+                
+            }
+            if(left<=right){
+                for(int i=bottom;i>=top;i--){
+                    res.push_back(matrix[i][left]);
+                   
+                }
+                  left++;
+            }
+       }
+       return res; 
     }
 };
